@@ -1,10 +1,7 @@
 package com.agendador.usuario.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -16,6 +13,7 @@ import java.util.UUID;
 //Utilizando o JPA(Java Persistence API) para persistencia de dados no banco de dados
 @Entity
 @Table(name = "endereco")
+@Builder
 public class Endereco {
 
     //Criando o atributo e suas especificidades que serão criadas na tabela do nosso banco de dados

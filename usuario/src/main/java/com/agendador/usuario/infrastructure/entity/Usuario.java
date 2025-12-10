@@ -1,10 +1,7 @@
 package com.agendador.usuario.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,6 +18,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "usuario")
 //Após baixar a dependencia do Spring Security devemos implementar 3 metodos obrigatórios
+@Builder
 public class Usuario implements UserDetails {
 
     //Criando o atributo e suas especificidades que serão criadas na tabela do nosso banco de dados
