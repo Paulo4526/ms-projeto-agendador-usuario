@@ -35,4 +35,6 @@ public class Endereco {
     private Integer numero;
     @Column(name = "complemento", nullable = true, length = 100)
     private String complemento;
+    @Column(name = "user_id")
+    private UUID user_id;
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 //OBS: Esta maneira é feita devido não haver as funcionalidades da classe record no java 11, então neste microserviço será feito com metodos converter para salvar os dados nas entidades de Usuario e ShowUsuarioDTO
 @Component
@@ -32,40 +33,6 @@ public class UsuarioConverter {
                 .build();
     }
 
-    public Endereco paraEndereco(EnderecoDTO enderecoDTO){
-        return Endereco.builder()
-                .rua(enderecoDTO.getRua())
-                .bairro(enderecoDTO.getBairro())
-                .cidade(enderecoDTO.getCidade())
-                .estado(enderecoDTO.getEstado())
-                .cep(enderecoDTO.getCep())
-                .numero(enderecoDTO.getNumero())
-                .complemento(enderecoDTO.getComplemento())
-                .build();
-    }
-
-    //Iteração com stream().map()
-    public List<Endereco> paraListaEndereco(List<EnderecoDTO> enderecoDTO){
-        return enderecoDTO.stream().map(this::paraEndereco).toList();
-    }
-
-    public Telefone paraTelefone(TelefoneDTO telefoneDTO){
-        return Telefone.builder()
-                .ddd(telefoneDTO.getDdd())
-                .numero(telefoneDTO.getNumero())
-                .build();
-    }
-
-    //Iteração em metodo for
-    public List<Telefone> paraListaTelefone(List<TelefoneDTO> telefoneDTOS){
-        List<Telefone> telefones = new ArrayList<>();
-        for(TelefoneDTO telefoneDTO : telefoneDTOS){
-            telefones.add(paraTelefone(telefoneDTO));
-        }
-
-        return telefones;
-    }
-
     public Usuario updateUsuario(UsuarioDTO usuarioDTO, Usuario entity){
         return Usuario.builder()
                 .id(entity.getId())
@@ -79,9 +46,36 @@ public class UsuarioConverter {
 
     }
 
-    //Metodo que escriptara o password
-    public String encodePassword(String password){
-        return passwordEncoder.encode(password);
+    //Cria endereco quando o usuario for criado
+    public Endereco paraEndereco(EnderecoDTO enderecoDTO){
+        return Endereco.builder()
+                .rua(enderecoDTO.getRua())
+                .bairro(enderecoDTO.getBairro())
+                .cidade(enderecoDTO.getCidade())
+                .estado(enderecoDTO.getEstado())
+                .cep(enderecoDTO.getCep())
+                .numero(enderecoDTO.getNumero())
+                .complemento(enderecoDTO.getComplemento())
+                .build();
+    }
+
+    //Adiciona novos endereços após a criação do usuario
+    public Endereco paraEnderecoEntity(UUID id, EnderecoDTO enderecoDTO){
+        return Endereco.builder()
+                .rua(enderecoDTO.getRua())
+                .bairro(enderecoDTO.getBairro())
+                .cidade(enderecoDTO.getCidade())
+                .estado(enderecoDTO.getEstado())
+                .cep(enderecoDTO.getCep())
+                .numero(enderecoDTO.getNumero())
+                .complemento(enderecoDTO.getComplemento())
+                .user_id(id)
+                .build();
+    }
+
+    //Iteração com stream().map()
+    public List<Endereco> paraListaEndereco(List<EnderecoDTO> enderecoDTO){
+        return enderecoDTO.stream().map(this::paraEndereco).toList();
     }
 
     public Endereco updateEndereco(EnderecoDTO enderecoDTO, Endereco endereco){
@@ -104,5 +98,41 @@ public class UsuarioConverter {
                 .numero(telefoneDTO.getNumero() != null ? telefoneDTO.getNumero() : telefone.getNumero())
                 .build();
     }
+
+    public Telefone paraTelefone(TelefoneDTO telefoneDTO){
+        return Telefone.builder()
+                .ddd(telefoneDTO.getDdd())
+                .numero(telefoneDTO.getNumero())
+                .build();
+    }
+
+    public Telefone paraTelefoneEntity(UUID id, TelefoneDTO telefoneDTO){
+        return Telefone.builder()
+                .ddd(telefoneDTO.getDdd())
+                .numero(telefoneDTO.getNumero())
+                .user_id(id)
+                .build();
+    }
+
+    //Iteração em metodo for
+    public List<Telefone> paraListaTelefone(List<TelefoneDTO> telefoneDTOS){
+        List<Telefone> telefones = new ArrayList<>();
+        for(TelefoneDTO telefoneDTO : telefoneDTOS){
+            telefones.add(paraTelefone(telefoneDTO));
+        }
+
+        return telefones;
+    }
+
+
+
+    //Metodo que escriptara o password
+    public String encodePassword(String password){
+        return passwordEncoder.encode(password);
+    }
+
+
+
+
 
 }

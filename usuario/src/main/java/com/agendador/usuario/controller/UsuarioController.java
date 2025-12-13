@@ -76,6 +76,12 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/endereco")
+    public ResponseEntity<ShowEnderecoDTO> cadastraNovoEndereco(@RequestHeader("Authorization") String token, @RequestBody EnderecoDTO enderecoDTO){
+        ShowEnderecoDTO salvo = usuarioService.cadastraNovoEndereco(token, enderecoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
+    }
+
     @PutMapping("/telefone")
     public ResponseEntity<ShowTelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO telefoneDTO, @RequestParam("telefoneId") UUID id){
         return ResponseEntity.ok(usuarioService.atualizandoTelefone(id, telefoneDTO));
@@ -90,6 +96,12 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteTelefoneById(@RequestParam("telefoneId") UUID id){
         usuarioService.deleteTelefoneBydId(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/telefone")
+    public ResponseEntity<ShowTelefoneDTO> cadastraNovoTelefone(@RequestHeader("Authorization") String token, @RequestBody TelefoneDTO telefoneDTO){
+        ShowTelefoneDTO salvo = usuarioService.cadastraNovoTelefone(token, telefoneDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
 }

@@ -24,4 +24,6 @@ public class Telefone {
     private Integer numero;
     @Column(name = "ddd", nullable = false)
     private Integer ddd;
+    @Column(name = "user_id")
+    private UUID user_id;
 }

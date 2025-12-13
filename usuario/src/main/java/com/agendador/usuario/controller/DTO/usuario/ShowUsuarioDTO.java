@@ -1,6 +1,8 @@
 package com.agendador.usuario.controller.DTO.usuario;
 
 import com.agendador.usuario.controller.DTO.endereco.EnderecoDTO;
+import com.agendador.usuario.controller.DTO.endereco.ShowEnderecoDTO;
+import com.agendador.usuario.controller.DTO.telefone.ShowTelefoneDTO;
 import com.agendador.usuario.controller.DTO.telefone.TelefoneDTO;
 import com.agendador.usuario.infrastructure.entity.Endereco;
 import com.agendador.usuario.infrastructure.entity.Telefone;
@@ -21,10 +23,17 @@ public class ShowUsuarioDTO {
     private String nome;
     private String email;
     private Integer idade;
-    private List<Endereco> enderecos;
-    private List<Telefone> telefones;
+    private List<ShowEnderecoDTO> enderecos;
+    private List<ShowTelefoneDTO> telefones;
 
     public ShowUsuarioDTO(Usuario usuario){
-        this(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getIdade(), usuario.getEnderecos(), usuario.getTelefones());
+        this(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getIdade(),
+                usuario.getEnderecos().stream().map(ShowEnderecoDTO::new).toList(),
+                usuario.getTelefones().stream().map(ShowTelefoneDTO::new).toList()
+        );
     }
 }
